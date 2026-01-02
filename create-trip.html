@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create New Trip | IntelliTrip</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --navy: #0B3B5B;
+  --blue: #2A8FAA;
+  --light: #F7FAFC;
+  --white: #ffffff;
+  --gray: #718096;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #F7FAFC, #E6F6FA);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.trip-card {
+  background: var(--white);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.trip-card h2 {
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+
+.trip-card p {
+  color: var(--gray);
+  margin-bottom: 25px;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--navy);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #CBD5E0;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: var(--blue);
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Back link */
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.back:hover {
+  color: var(--navy);
+}
+</style>
+</head>
+
+<body>
+
+<div class="trip-card">
+  <h2>✈️ Create New Trip</h2>
+  <p>Enter basic trip details to get started</p>
+
+  <form id="tripForm">
+    <div class="form-group">
+      <label>Trip Name</label>
+      <input type="text" id="tripName" placeholder="Goa Beach Trip" required>
+    </div>
+
+    <div class="form-group">
+      <label>Destination</label>
+      <input type="text" id="destination" placeholder="Goa, India" required>
+    </div>
+
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="date" id="startDate" required>
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="date" id="endDate" required>
+    </div>
+
+    <div class="form-group">
+      <label>Estimated Budget (₹)</label>
+      <input type="number" id="budget" placeholder="25000" required>
+    </div>
+
+    <button class="btn" type="submit">
+      <i class="fas fa-check"></i> Create Trip
+    </button>
+  </form>
+
+  <a href="dashboard.html" class="back">
+    ← Back to Dashboard
+  </a>
+</div>
+
+<script>
+document.getElementById("tripForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const trip = {
+    name: tripName.value,
+    destination: destination.value,
+    start: startDate.value,
+    end: endDate.value,
+    budget: budget.value
+  };
+
+  console.log("Trip Created:", trip);
+
+  alert("Trip created successfully!");
+
+  // ✅ Redirect back to dashboard
+  window.location.href = "dashboard.html";
+});
+</script>
+
+</body>
+</html>

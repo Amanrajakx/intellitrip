@@ -577,102 +577,258 @@ class IntelliTripApp {
         }
     }
 
-    loadTripsData() {
+        loadTripsData() {
         // Sample trips data
         const trips = [
             {
                 id: 1,
                 title: 'Goa Beach Trip',
-                dates: 'Mar 15-20, 2024 • 5 days',
+                destination: 'Goa, India',
+                dates: 'Mar 15-20, 2024',
+                duration: '5 days',
+                status: 'upcoming',
                 progress: 80,
                 budget: '₹25,000',
-                status: 'upcoming'
+                spent: '₹18,500',
+                members: 4,
+                activities: 12
             },
             {
                 id: 2,
                 title: 'Business Conference',
-                dates: 'Apr 5-7, 2024 • 3 days',
+                destination: 'Bangalore, India',
+                dates: 'Apr 5-7, 2024',
+                duration: '3 days',
+                status: 'ongoing',
                 progress: 60,
                 budget: '₹15,000',
-                status: 'ongoing'
+                spent: '₹9,200',
+                members: 2,
+                activities: 8
             },
             {
                 id: 3,
                 title: 'Mountain Trek',
-                dates: 'May 10-15, 2024 • 6 days',
+                destination: 'Himachal Pradesh',
+                dates: 'May 10-15, 2024',
+                duration: '6 days',
+                status: 'upcoming',
                 progress: 30,
                 budget: '₹18,000',
-                status: 'upcoming'
+                spent: '₹5,400',
+                members: 6,
+                activities: 15
+            },
+            {
+                id: 4,
+                title: 'Family Vacation',
+                destination: 'Kerala',
+                dates: 'Jun 1-10, 2024',
+                duration: '10 days',
+                status: 'upcoming',
+                progress: 20,
+                budget: '₹35,000',
+                spent: '₹7,000',
+                members: 5,
+                activities: 18
             }
         ];
         
-        // Update trips list if exists
-        const tripsList = document.querySelector('.trips-list');
-        if (tripsList) {
-            tripsList.innerHTML = trips.map(trip => `
-                <div class="trip-item" data-id="${trip.id}">
-                    <div class="trip-icon">
-                        <i class="fas fa-${trip.status === 'ongoing' ? 'briefcase' : 'umbrella-beach'}"></i>
-                    </div>
-                    <div class="trip-details">
+        // Update trips grid if exists
+        const tripsGrid = document.getElementById('tripsGrid');
+        if (tripsGrid) {
+            tripsGrid.innerHTML = trips.map(trip => `
+                <div class="trip-card-detailed">
+                    <div class="trip-card-header">
                         <h3>${trip.title}</h3>
-                        <p>${trip.dates}</p>
-                        <div class="trip-progress">
-                            <div class="progress-bar">
-                                <div class="progress" style="width: ${trip.progress}%"></div>
+                        <p class="trip-card-dates">${trip.dates} • ${trip.duration}</p>
+                        <span class="trip-status-badge status-${trip.status}">
+                            ${trip.status}
+                        </span>
+                    </div>
+                    
+                    <div class="trip-card-body">
+                        <div class="trip-info-row">
+                            <span class="trip-info-label">Destination</span>
+                            <span class="trip-info-value">${trip.destination}</span>
+                        </div>
+                        
+                        <div class="trip-info-row">
+                            <span class="trip-info-label">Budget</span>
+                            <span class="trip-info-value">${trip.budget}</span>
+                        </div>
+                        
+                        <div class="trip-info-row">
+                            <span class="trip-info-label">Spent</span>
+                            <span class="trip-info-value">${trip.spent}</span>
+                        </div>
+                        
+                        <div class="trip-progress-section">
+                            <div class="trip-progress-label">
+                                <span class="trip-progress-text">Planning Progress</span>
+                                <span class="trip-progress-percent">${trip.progress}%</span>
                             </div>
-                            <span>${trip.progress}% planned</span>
+                            <div class="trip-progress-bar">
+                                <div class="trip-progress-fill" style="width: ${trip.progress}%"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="trip-status">
-                        <span class="status-badge ${trip.status}">${trip.status.charAt(0).toUpperCase() + trip.status.slice(1)}</span>
-                        <span class="trip-budget">${trip.budget}</span>
+                    
+                    <div class="trip-card-footer">
+                        <div class="trip-members">
+                            <div class="member-avatar"></div>
+                            <div class="member-avatar"></div>
+                            <div class="member-avatar"></div>
+                            <span class="member-count">+${trip.members - 3}</span>
+                        </div>
+                        
+                        <div class="trip-actions">
+                            <button class="trip-action-btn" onclick="app.viewTrip(${trip.id})">
+                                View
+                            </button>
+                            <button class="trip-action-btn primary" onclick="app.editTrip(${trip.id})">
+                                Manage
+                            </button>
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
     }
-
-    loadExpensesData() {
-        // Sample expense data
+    
+        loadExpensesData() {
+        // Sample expenses data
         const expenses = [
-            { category: 'Accommodation', amount: '₹20,385', percentage: 45, color: 'var(--navy-900)' },
-            { category: 'Transport', amount: '₹11,325', percentage: 25, color: 'var(--navy-700)' },
-            { category: 'Food & Dining', amount: '₹6,795', percentage: 15, color: 'var(--blue-600)' },
-            { category: 'Activities', amount: '₹4,530', percentage: 10, color: 'var(--blue-400)' },
-            { category: 'Shopping', amount: '₹2,265', percentage: 5, color: 'var(--blue-200)' }
+            {
+                id: 1,
+                date: '2024-03-10',
+                description: 'Taj Hotel Stay',
+                category: 'accommodation',
+                trip: 'Goa Beach Trip',
+                amount: '₹8,500',
+                paidBy: 'John'
+            },
+            {
+                id: 2,
+                date: '2024-03-11',
+                description: 'Flight to Goa',
+                category: 'transport',
+                trip: 'Goa Beach Trip',
+                amount: '₹12,300',
+                paidBy: 'Sarah'
+            },
+            {
+                id: 3,
+                date: '2024-03-12',
+                description: 'Seafood Dinner',
+                category: 'food',
+                trip: 'Goa Beach Trip',
+                amount: '₹2,400',
+                paidBy: 'John'
+            },
+            {
+                id: 4,
+                date: '2024-03-13',
+                description: 'Water Sports',
+                category: 'activities',
+                trip: 'Goa Beach Trip',
+                amount: '₹3,500',
+                paidBy: 'Mike'
+            },
+            {
+                id: 5,
+                date: '2024-03-14',
+                description: 'Souvenir Shopping',
+                category: 'shopping',
+                trip: 'Goa Beach Trip',
+                amount: '₹1,200',
+                paidBy: 'Emma'
+            },
+            {
+                id: 6,
+                date: '2024-04-05',
+                description: 'Conference Hotel',
+                category: 'accommodation',
+                trip: 'Business Conference',
+                amount: '₹6,800',
+                paidBy: 'John'
+            },
+            {
+                id: 7,
+                date: '2024-04-06',
+                description: 'Taxi to Venue',
+                category: 'transport',
+                trip: 'Business Conference',
+                amount: '₹850',
+                paidBy: 'John'
+            }
+            
         ];
         
-        // Update expense chart if exists
-        const chartVisual = document.querySelector('.chart-visual');
-        const chartLabels = document.querySelector('.chart-labels');
-        const chartLegend = document.querySelector('.chart-legend');
-        
-        if (chartVisual && chartLabels && chartLegend) {
-            // Update bars
-            chartVisual.innerHTML = expenses.map(expense => `
-                <div class="chart-bar" style="height: ${expense.percentage * 2}%; background: ${expense.color};" 
-                     data-value="${expense.amount}" title="${expense.category} - ${expense.percentage}%">
-                    <span>${expense.percentage}%</span>
-                </div>
-            `).join('');
-            
-            // Update labels
-            chartLabels.innerHTML = expenses.map(expense => `
-                <span>${expense.category.split(' ')[0]}</span>
-            `).join('');
-            
-            // Update legend
-            chartLegend.innerHTML = expenses.map(expense => `
-                <div class="legend-item">
-                    <span class="legend-color" style="background: ${expense.color}"></span>
-                    <span class="legend-label">${expense.category}</span>
-                    <span class="legend-value">${expense.amount}</span>
-                </div>
+        // Update expenses table if exists
+        const tableBody = document.getElementById('expensesTableBody');
+        if (tableBody) {
+            tableBody.innerHTML = expenses.map(expense => `
+                <tr>
+                    <td>${expense.date}</td>
+                    <td>${expense.description}</td>
+                    <td>
+                        <span class="category-badge category-${expense.category}">
+                            ${expense.category}
+                        </span>
+                    </td>
+                    <td>${expense.trip}</td>
+                    <td><strong>${expense.amount}</strong></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn" title="Edit" onclick="app.editExpense(${expense.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" title="Delete" onclick="app.deleteExpense(${expense.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="action-btn" title="View Details" onclick="app.viewExpense(${expense.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             `).join('');
         }
+        
     }
-
+        // Add these methods for trips
+    viewTrip(tripId) {
+        this.showToast(`Viewing trip #${tripId} details`, 'info');
+        // In real app, navigate to trip detail page
+    }
+    
+    editTrip(tripId) {
+        this.showToast(`Editing trip #${tripId}`, 'info');
+        // In real app, open trip editor
+    }
+    // Add these methods after loadExpensesData()
+    editExpense(expenseId) {
+        this.showToast(`Editing expense #${expenseId}`, 'info');
+        // In real app, open edit modal
+    }
+    
+    deleteExpense(expenseId) {
+        if (confirm('Are you sure you want to delete this expense?')) {
+            this.showToast(`Expense #${expenseId} deleted`, 'success');
+            // In real app, remove from array and refresh
+        }
+    }
+    
+    viewExpense(expenseId) {
+        this.showToast(`Viewing expense #${expenseId} details`, 'info');
+        // In real app, show details modal
+    }
+    
+    openAddExpenseModal() {
+        this.showToast('Opening add expense form', 'info');
+        // In real app, open modal
+    }
     loadAnalyticsData() {
         // Sample analytics data
         const monthlyData = [
@@ -705,9 +861,138 @@ class IntelliTripApp {
         }
     }
 
-    loadReportsData() {
-        // Reports data would be loaded here
-        console.log('Loading reports data...');
+        loadReportsData() {
+        // Sample reports data
+        const reports = [
+            {
+                id: 1,
+                title: 'Goa Trip Full Report',
+                date: 'Generated: Mar 20, 2024',
+                type: 'trip',
+                stats: {
+                    totalSpent: '₹45,300',
+                    tripDuration: '5 days',
+                    avgDaily: '₹9,060',
+                    expenses: '42 items'
+                },
+                summary: 'Complete analysis of Goa beach trip including all expenses, category breakdown, and group settlement.'
+            },
+            {
+                id: 2,
+                title: 'March 2024 Monthly Summary',
+                date: 'Generated: Apr 1, 2024',
+                type: 'monthly',
+                stats: {
+                    totalSpent: '₹28,450',
+                    trips: '2 trips',
+                    savings: '12%',
+                    categories: '5'
+                },
+                summary: 'Monthly spending overview with comparison to previous month and budget analysis.'
+            },
+            {
+                id: 3,
+                title: 'Accommodation Analysis',
+                date: 'Generated: Mar 15, 2024',
+                type: 'category',
+                stats: {
+                    total: '₹20,385',
+                    percentage: '45%',
+                    avgPerNight: '₹4,077',
+                    nights: '5'
+                },
+                summary: 'Detailed breakdown of accommodation expenses across all trips with optimization suggestions.'
+            },
+            {
+                id: 4,
+                title: 'Group Settlement - Goa Trip',
+                date: 'Generated: Mar 21, 2024',
+                type: 'settlement',
+                stats: {
+                    totalMembers: '4 people',
+                    totalExpenses: '₹45,300',
+                    avgPerPerson: '₹11,325',
+                    pending: '₹0'
+                },
+                summary: 'Complete settlement report showing who paid what and final balances for all group members.'
+            }
+        ];
+        
+        // Update reports grid if exists
+        const reportsGrid = document.getElementById('reportsGrid');
+        if (reportsGrid) {
+            reportsGrid.innerHTML = reports.map(report => `
+                <div class="report-card">
+                    <div class="report-header">
+                        <div>
+                            <div class="report-title">${report.title}</div>
+                            <div class="report-date">${report.date}</div>
+                        </div>
+                        <span class="report-type">${report.type}</span>
+                    </div>
+                    
+                    <div class="report-body">
+                        <div class="report-stats">
+                            ${Object.entries(report.stats).map(([key, value]) => `
+                                <div class="report-stat">
+                                    <span class="report-stat-label">${key.replace(/([A-Z])/g, ' $1').toLowerCase()}</span>
+                                    <span class="report-stat-value">${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <p class="report-summary">${report.summary}</p>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <div class="report-actions">
+                            <button class="report-action-btn" onclick="app.viewReport(${report.id})">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="report-action-btn" onclick="app.downloadReport(${report.id})">
+                                <i class="fas fa-download"></i> PDF
+                            </button>
+                            <button class="report-action-btn" onclick="app.shareReport(${report.id})">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                        </div>
+                        <small>Last updated: 2 days ago</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+        // Add these methods after loadReportsData()
+    viewReport(reportId) {
+        this.showToast(`Viewing report #${reportId}`, 'info');
+        // In real app, open report viewer
+    }
+    
+    downloadReport(reportId) {
+        this.showToast(`Downloading report #${reportId} as PDF`, 'success');
+        // In real app, generate and download PDF
+    }
+    
+    shareReport(reportId) {
+        this.showToast(`Sharing report #${reportId}`, 'info');
+        // In real app, open share dialog
+    }
+    
+    generateReport() {
+        this.showToast('Generating new report...', 'info');
+        // In real app, open report generator
+    }
+    
+    applyReportFilters() {
+        const reportType = document.getElementById('reportType').value;
+        const timePeriod = document.getElementById('timePeriod').value;
+        this.showToast(`Applying filters: ${reportType} for ${timePeriod}`, 'info');
+        // In real app, filter reports
+    }
+    
+    useTemplate(templateType) {
+        this.showToast(`Using ${templateType.replace('_', ' ')} template`, 'success');
+        // In real app, load template
     }
 
     loadNotifications() {
@@ -774,79 +1059,89 @@ class IntelliTripApp {
         return icons[type] || 'bell';
     }
 
-    loadAITips() {
+        loadAITips() {
         this.aiTips = {
             personalized: [
                 {
                     id: 1,
                     title: 'Optimize Your Goa Trip',
-                    content: 'Consider traveling mid-week for better hotel rates and fewer crowds.',
+                    content: 'Consider traveling mid-week for better hotel rates and fewer crowds. Hotels are 20-30% cheaper Tuesday-Thursday.',
                     icon: 'lightbulb',
-                    saved: false
+                    saved: false,
+                    tags: ['saving', 'timing', 'hotel']
                 },
                 {
                     id: 2,
                     title: 'Flight Booking Alert',
-                    content: 'Flight prices to Goa are expected to drop by 15% next week.',
+                    content: 'Flight prices to Goa are expected to drop by 15% next week. Set price alerts for the best deals.',
                     icon: 'plane',
-                    saved: false
+                    saved: false,
+                    tags: ['flights', 'alerts', 'saving']
                 },
                 {
                     id: 3,
                     title: 'Local Experience',
-                    content: 'Try authentic Goan cuisine at small family-run restaurants.',
+                    content: 'Try authentic Goan cuisine at small family-run restaurants for better food at 40% lower prices than tourist spots.',
                     icon: 'utensils',
-                    saved: false
+                    saved: false,
+                    tags: ['food', 'local', 'culture']
                 }
             ],
             travel: [
                 {
                     id: 4,
                     title: 'Pack Smart',
-                    content: 'Pack versatile clothing items that can be mixed and matched.',
+                    content: 'Pack versatile clothing items that can be mixed and matched. Roll clothes to save space and prevent wrinkles.',
                     icon: 'suitcase',
-                    saved: false
+                    saved: false,
+                    tags: ['packing', 'efficiency']
                 },
                 {
                     id: 5,
                     title: 'Document Safety',
-                    content: 'Keep digital copies of important documents in cloud storage.',
+                    content: 'Keep digital copies of important documents in cloud storage. Also carry physical photocopies separately.',
                     icon: 'passport',
-                    saved: false
+                    saved: false,
+                    tags: ['safety', 'documents']
                 }
             ],
             budget: [
                 {
                     id: 6,
                     title: 'Daily Budget',
-                    content: 'Set a daily spending limit and track expenses in real-time.',
+                    content: 'Set a daily spending limit and track expenses in real-time. Use our app to stay within budget.',
                     icon: 'wallet',
-                    saved: false
+                    saved: false,
+                    tags: ['budget', 'tracking']
                 },
                 {
                     id: 7,
                     title: 'Local Currency',
-                    content: 'Use local ATMs for better exchange rates than airport counters.',
+                    content: 'Use local ATMs for better exchange rates than airport counters. Avoid dynamic currency conversion.',
                     icon: 'money-bill-wave',
-                    saved: false
+                    saved: false,
+                    tags: ['currency', 'saving']
                 }
             ],
             places: [
                 {
                     id: 8,
                     title: 'Hidden Gems in Goa',
-                    content: 'Visit Butterfly Beach and Arambol Beach for less crowded experiences.',
+                    content: 'Visit Butterfly Beach and Arambol Beach for less crowded experiences with stunning natural beauty.',
                     icon: 'map-marker-alt',
-                    saved: false
+                    saved: false,
+                    tags: ['beaches', 'hidden']
                 },
                 {
                     id: 9,
                     title: 'Cultural Sites',
-                    content: 'Explore Old Goa churches for rich cultural experiences.',
+                    content: 'Explore Old Goa churches and Portuguese architecture for rich cultural experiences.',
                     icon: 'landmark',
-                    saved: false
+                    saved: false,
+                    tags: ['culture', 'history']
                 }
-            ]
+            ],
+            saved: [] // Will be populated when user saves tips
         };
         
         // Update AI tips on dashboard
@@ -1134,6 +1429,13 @@ class IntelliTripApp {
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1000);
+    }
+        // Add this method to fix the create trip functionality
+    createTrip(tripData) {
+        console.log('Creating trip:', tripData);
+        this.showToast(`Trip "${tripData.name}" created successfully!`, 'success');
+        // In a real app, you would save to backend here
+        localStorage.setItem('lastCreatedTrip', JSON.stringify(tripData));
     }
 
     login(email, password) {

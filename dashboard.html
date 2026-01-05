@@ -500,135 +500,251 @@
 
         <!-- Other Views -->
         <div id="tripsView" class="view">
-            <div class="page-header">
-                <div class="header-content">
-                    <h1><i class="fas fa-suitcase"></i> My Trips</h1>
-                    <p>Manage all your travel plans and upcoming journeys</p>
-                </div>
-               <a href="create-trip.html" class="btn-primary btn-lg">
-    <i class="fas fa-plus"></i> Create New Trip
-</a>
-
-            </div>
-            <div class="content-placeholder">
-                <div class="placeholder-icon">
-                    <i class="fas fa-suitcase"></i>
-                </div>
-                <h3>Trips Management</h3>
-                <p>View and manage all your trips in one place</p>
-                <button class="btn-outline" onclick="showView('dashboard')">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
-                </button>
+    <div class="page-header">
+        <div class="header-content">
+            <h1><i class="fas fa-suitcase"></i> My Trips</h1>
+            <p>Manage all your travel plans and upcoming journeys</p>
+        </div>
+        <a href="create-trip.html" class="btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Create New Trip
+        </a>
+    </div>
+    
+    <div class="content-container">
+        <!-- Trip Filters -->
+        <div class="filters-section">
+            <div class="filter-options">
+                <select class="filter-select" id="tripStatus">
+                    <option value="all">All Status</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <input type="text" class="search-expenses" placeholder="Search trips...">
             </div>
         </div>
+        
+        <!-- Trips Grid -->
+        <div class="trips-grid" id="tripsGrid">
+            <!-- Trips will load here -->
+        </div>
+    </div>
+</div>
 
         <div id="expensesView" class="view">
-            <div class="page-header">
-                <div class="header-content">
-                    <h1><i class="fas fa-file-invoice-dollar"></i> Expenses</h1>
-                    <p>Track and manage all your travel expenses</p>
-                </div>
-                <button class="btn-primary btn-lg" onclick="showView('expenses')">
-                    <i class="fas fa-plus"></i> Add Expense
-                </button>
+    <div class="page-header">
+        <div class="header-content">
+            <h1><i class="fas fa-file-invoice-dollar"></i> Expenses</h1>
+            <p>Track and manage all your travel expenses</p>
+        </div>
+        <button class="btn-primary btn-lg" onclick="openAddExpenseModal()">
+            <i class="fas fa-plus"></i> Add Expense
+        </button>
+    </div>
+    
+    <div class="content-container">
+        <!-- Expense Filters -->
+        <div class="filters-section">
+            <div class="filter-options">
+                <select class="filter-select" id="expenseCategory">
+                    <option value="all">All Categories</option>
+                    <option value="accommodation">Accommodation</option>
+                    <option value="transport">Transport</option>
+                    <option value="food">Food & Dining</option>
+                    <option value="activities">Activities</option>
+                    <option value="shopping">Shopping</option>
+                </select>
+                <select class="filter-select" id="expenseTrip">
+                    <option value="all">All Trips</option>
+                    <option value="goa">Goa Beach Trip</option>
+                    <option value="conference">Business Conference</option>
+                    <option value="mountain">Mountain Trek</option>
+                </select>
+                <input type="text" class="search-expenses" placeholder="Search expenses...">
             </div>
-            <div class="content-placeholder">
-                <div class="placeholder-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
+            <div class="expense-summary">
+                <div class="summary-card">
+                    <h3>Total Spent</h3>
+                    <p class="amount">₹45,300</p>
                 </div>
-                <h3>Expense Tracking</h3>
-                <p>Track and categorize your travel expenses</p>
-                <button class="btn-outline" onclick="showView('dashboard')">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
-                </button>
+                <div class="summary-card">
+                    <h3>This Month</h3>
+                    <p class="amount">₹12,850</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Average/Day</h3>
+                    <p class="amount">₹1,200</p>
+                </div>
             </div>
         </div>
+        
+        <!-- Expenses Table -->
+        <div class="expenses-table-container">
+            <table class="expenses-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Trip</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expensesTableBody">
+                    <!-- Expenses will load here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
         <div id="analyticsView" class="view">
-            <div class="page-header">
-                <div class="header-content">
-                    <h1><i class="fas fa-chart-line"></i> Analytics</h1>
-                    <p>Get insights about your travel patterns and spending</p>
-                </div>
-            </div>
-            <div class="content-placeholder">
-                <div class="placeholder-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Travel Analytics</h3>
-                <p>Detailed insights and analytics about your travel patterns</p>
-                <button class="btn-outline" onclick="showView('dashboard')">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
-                </button>
-            </div>
+    <div class="page-header">
+        <div class="header-content">
+            <h1><i class="fas fa-chart-line"></i> Analytics</h1>
+            <p>Get insights about your travel patterns and spending</p>
         </div>
-
-        <div id="reportsView" class="view">
-            <div class="page-header">
-                <div class="header-content">
-                    <h1><i class="fas fa-file-alt"></i> Reports</h1>
-                    <p>Generate detailed travel expense reports</p>
+        <select class="filter-select">
+            <option>Last 30 Days</option>
+            <option>Last 3 Months</option>
+            <option>Last 6 Months</option>
+            <option>This Year</option>
+        </select>
+    </div>
+    
+    <div class="content-container">
+        <!-- Analytics Summary -->
+        <div class="analytics-summary">
+            <div class="analytics-card">
+                <div class="analytics-icon">
+                    <i class="fas fa-money-bill-wave"></i>
                 </div>
-                <button class="btn-primary btn-lg" onclick="showView('reports')">
-                    <i class="fas fa-download"></i> Export Report
-                </button>
+                <div class="analytics-content">
+                    <h3>Total Spent</h3>
+                    <p class="analytics-value">₹45,300</p>
+                    <p class="analytics-trend positive">+12.5% from last month</p>
+                </div>
             </div>
-            <div class="content-placeholder">
-                <div class="placeholder-icon">
-                    <i class="fas fa-file-alt"></i>
+            
+            <div class="analytics-card">
+                <div class="analytics-icon">
+                    <i class="fas fa-calendar-alt"></i>
                 </div>
-                <h3>Report Generation</h3>
-                <p>Create detailed travel expense reports</p>
-                <button class="btn-outline" onclick="showView('dashboard')">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
-                </button>
+                <div class="analytics-content">
+                    <h3>Travel Days</h3>
+                    <p class="analytics-value">18 days</p>
+                    <p class="analytics-trend positive">+5 days from last quarter</p>
+                </div>
             </div>
-        </div>
-    </main>
-
-    <!-- AI Tips Modal -->
-    <div id="aiTipsModal" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-robot"></i> AI Smart Tips</h2>
-                <button class="modal-close" onclick="closeModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+            
+            <div class="analytics-card">
+                <div class="analytics-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="analytics-content">
+                    <h3>Avg. Daily Cost</h3>
+                    <p class="analytics-value">₹2,517</p>
+                    <p class="analytics-trend negative">-8.3% savings</p>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="modal-tabs">
-                    <button class="modal-tab active" data-tab="personalized">
-                        <i class="fas fa-user"></i> For You
-                    </button>
-                    <button class="modal-tab" data-tab="travel">
-                        <i class="fas fa-plane"></i> Travel
-                    </button>
-                    <button class="modal-tab" data-tab="budget">
-                        <i class="fas fa-wallet"></i> Budget
-                    </button>
-                    <button class="modal-tab" data-tab="places">
-                        <i class="fas fa-map-marker-alt"></i> Places
-                    </button>
+            
+            <div class="analytics-card">
+                <div class="analytics-icon">
+                    <i class="fas fa-map-marker-alt"></i>
                 </div>
-                
-                <div class="modal-tab-content active" id="personalizedTab">
-                    <!-- Personalized tips will load here -->
-                </div>
-                
-                <div class="modal-tab-content" id="travelTab">
-                    <!-- Travel tips will load here -->
-                </div>
-                
-                <div class="modal-tab-content" id="budgetTab">
-                    <!-- Budget tips will load here -->
-                </div>
-                
-                <div class="modal-tab-content" id="placesTab">
-                    <!-- Places tips will load here -->
+                <div class="analytics-content">
+                    <h3>Destinations</h3>
+                    <p class="analytics-value">4 places</p>
+                    <p class="analytics-trend">+2 new this year</p>
                 </div>
             </div>
         </div>
+        
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Spending by Category</h3>
+                    <select class="filter-select small">
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                    </select>
+                </div>
+                <div class="chart-placeholder" id="categoryChart">
+                    <!-- Chart will go here -->
+                    <div class="simple-chart">
+                        <div class="chart-bar" style="height: 80%; background: var(--navy-900);" title="Accommodation 45%"></div>
+                        <div class="chart-bar" style="height: 50%; background: var(--navy-700);" title="Transport 25%"></div>
+                        <div class="chart-bar" style="height: 40%; background: var(--blue-600);" title="Food 20%"></div>
+                        <div class="chart-bar" style="height: 30%; background: var(--blue-400);" title="Activities 15%"></div>
+                        <div class="chart-bar" style="height: 20%; background: var(--blue-200);" title="Shopping 10%"></div>
+                    </div>
+                    <div class="chart-labels">
+                        <span>Accommodation</span>
+                        <span>Transport</span>
+                        <span>Food</span>
+                        <span>Activities</span>
+                        <span>Shopping</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Monthly Spending Trend</h3>
+                </div>
+                <div class="chart-placeholder" id="trendChart">
+                    <!-- Chart will go here -->
+                    <div class="trend-line">
+                        <div class="trend-point" style="left: 0%; bottom: 30%;" data-value="₹15,000"></div>
+                        <div class="trend-point" style="left: 20%; bottom: 45%;" data-value="₹22,500"></div>
+                        <div class="trend-point" style="left: 40%; bottom: 60%;" data-value="₹30,000"></div>
+                        <div class="trend-point" style="left: 60%; bottom: 40%;" data-value="₹18,750"></div>
+                        <div class="trend-point" style="left: 80%; bottom: 55%;" data-value="₹26,250"></div>
+                        <div class="trend-point" style="left: 100%; bottom: 70%;" data-value="₹33,750"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Insights Section -->
+        <div class="insights-section">
+            <h3>AI Travel Insights</h3>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Budget Optimization</h4>
+                        <p>You could save ₹3,200/month by booking flights 3 weeks in advance.</p>
+                    </div>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Food Spending</h4>
+                        <p>Food expenses are 25% higher than average. Consider local restaurants.</p>
+                    </div>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Travel Pattern</h4>
+                        <p>You travel most in March and December. Plan early for better deals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     </div>
 
     <!-- Notifications Dropdown -->
@@ -644,6 +760,138 @@
             <a href="#" class="view-all">View all notifications</a>
         </div>
     </div>
+            <div id="analyticsView" class="view">
+            <!-- ... analytics content ... -->
+        </div>
+
+        <!-- Add Reports View Here -->
+        <div id="reportsView" class="view">
+            <div class="page-header">
+                <div class="header-content">
+                    <h1><i class="fas fa-file-alt"></i> Reports</h1>
+                    <p>Generate detailed travel expense reports</p>
+                </div>
+                <button class="btn-primary btn-lg" onclick="app.generateReport()">
+                    <i class="fas fa-plus"></i> Generate New Report
+                </button>
+            </div>
+            
+            <div class="content-container">
+                <!-- Report Filters -->
+                <div class="filters-section">
+                    <div class="filter-options">
+                        <select class="filter-select" id="reportType">
+                            <option value="trip">Trip Reports</option>
+                            <option value="monthly">Monthly Summary</option>
+                            <option value="category">Category Analysis</option>
+                            <option value="comparison">Trip Comparison</option>
+                        </select>
+                        <select class="filter-select" id="timePeriod">
+                            <option value="last30">Last 30 Days</option>
+                            <option value="last90">Last 90 Days</option>
+                            <option value="lastyear">Last Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <button class="btn-outline" onclick="app.applyReportFilters()">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Generated Reports -->
+                <div class="reports-grid" id="reportsGrid">
+                    <!-- Reports will load here -->
+                </div>
+                
+                <!-- Report Templates -->
+                <div class="templates-section">
+                    <h3>Quick Report Templates</h3>
+                    <div class="templates-grid">
+                        <div class="template-card" onclick="app.useTemplate('trip_summary')">
+                            <div class="template-icon">
+                                <i class="fas fa-suitcase"></i>
+                            </div>
+                            <div class="template-content">
+                                <h4>Trip Summary</h4>
+                                <p>Complete overview of a single trip</p>
+                            </div>
+                        </div>
+                        
+                        <div class="template-card" onclick="app.useTemplate('monthly_expense')">
+                            <div class="template-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="template-content">
+                                <h4>Monthly Expense</h4>
+                                <p>Monthly spending breakdown</p>
+                            </div>
+                        </div>
+                        
+                        <div class="template-card" onclick="app.useTemplate('category_analysis')">
+                            <div class="template-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="template-content">
+                                <h4>Category Analysis</h4>
+                                <p>Spending by category</p>
+                            </div>
+                        </div>
+                        
+                        <div class="template-card" onclick="app.useTemplate('group_settlement')">
+                            <div class="template-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="template-content">
+                                <h4>Group Settlement</h4>
+                                <p>Who owes who how much</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- AI Tips Modal -->
+<div id="aiTipsModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-robot"></i> AI Smart Tips</h2>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="personalized">
+                    <i class="fas fa-user"></i> For You
+                </button>
+                <button class="modal-tab" data-tab="travel">
+                    <i class="fas fa-plane"></i> Travel
+                </button>
+                <button class="modal-tab" data-tab="budget">
+                    <i class="fas fa-wallet"></i> Budget
+                </button>
+                <button class="modal-tab" data-tab="places">
+                    <i class="fas fa-map-marker-alt"></i> Places
+                </button>
+                <button class="modal-tab" data-tab="saved">
+                    <i class="fas fa-bookmark"></i> Saved Tips
+                </button>
+            </div>
+            
+            <!-- Tab contents already exist in your code -->
+            <div class="modal-tab-content active" id="personalizedTab"></div>
+            <div class="modal-tab-content" id="travelTab"></div>
+            <div class="modal-tab-content" id="budgetTab"></div>
+            <div class="modal-tab-content" id="placesTab"></div>
+            <div class="modal-tab-content" id="savedTab">
+                <!-- Saved tips will load here -->
+            </div>
+        </div>
+    </div>
+</div>
+    </main>
+    <!-- End of main-content -->
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
